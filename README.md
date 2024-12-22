@@ -31,11 +31,11 @@ Comprehensive unit and feature tests for critical functionalities.
 
 ## Requirements
 
-PHP >= 8.1
-Laravel >= 10
-Redis (for cart storage)
-MySQL
-Composer
+PHP >= 8.1,
+Laravel >= 10,
+Redis (for cart storage),
+MySQL,
+Composer,
 Docker (optional for containerized setup)
 
 ## Installation
