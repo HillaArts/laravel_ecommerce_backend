@@ -2,13 +2,14 @@
 
 This backend application provides a REST API for an e-commerce platform. It allows users to add/remove items from a cart (stored in Redis), place orders, and view their order history. Built using Laravel, it follows best practices for scalability, testability, and maintainability.
 
-Features
-Cart Management
+## Features
+### Cart Management
 
 Add items to the cart.
 Remove items from the cart.
 View all items in the cart.
-Order Management
+
+## Order Management
 
 Place an order.
 View order history.
