@@ -7,10 +7,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.31",
+        "laravel/framework": "^11.36",
         "laravel/tinker": "^2.9",
         "predis/predis": "*",
-        "symfony/http-kernel": "^7.2"
+        "symfony/http-kernel": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
