@@ -34,7 +34,7 @@ Comprehensive unit and feature tests for critical functionalities.
 PHP >= 8.1
 Laravel >= 10
 Redis (for cart storage)
-MySQL/PostgreSQL
+MySQL
 Composer
 Docker (optional for containerized setup)
 
