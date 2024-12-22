@@ -1,55 +1,66 @@
-# Overview
+# Backend API for E-Commerce Application
+
+## Overview
 
 This backend application provides a REST API for an e-commerce platform. It allows users to add/remove items from a cart (stored in Redis), place orders, and view their order history. Built using Laravel, it follows best practices for scalability, testability, and maintainability.
 
 ## Features
+
 ### Cart Management
 
 Add items to the cart.
 Remove items from the cart.
 View all items in the cart.
 
-## Order Management
+### Order Management
 
 Place an order.
 View order history.
-Database
+
+### Database
 
 Orders and order items are stored in a MySQL/PostgreSQL database.
-Error Handling
+
+### Error Handling
 
 Proper HTTP status codes with clear error messages.
-Testing
+
+### Testing
 
 Comprehensive unit and feature tests for critical functionalities.
-Requirements
+
+## Requirements
+
 PHP >= 8.1
 Laravel >= 10
 Redis (for cart storage)
 MySQL/PostgreSQL
 Composer
 Docker (optional for containerized setup)
-Installation
-Clone the Repository
-bash
-Copy code
+
+## Installation
+
+### Clone the Repository
+
 git clone [https://github.com/HillaArts/laravel_ecommerce_backend.git](https://github.com/HillaArts/laravel_ecommerce_backend.git)
-cd ecommerce_backened  
-Install Dependencies
-bash
-Copy code
+cd laravel_ecommerce_backened  
+
+### Install Dependencies
+
 composer install  
-Set Up Environment Variables
-Copy the .env.example file to .env and update the necessary configuration, including:
+
+### Set Up Environment Variables
+
+Creates .env and update the necessary configuration, including:
 
 Database credentials.
 Redis configuration.
 Application key.
-bash
-Copy code
-cp .env.example .env  
+
+tuoch .env  
 php artisan key:generate  
-Migrate and Seed the Database
+
+### Migrate and Seed the Database
 Run the following commands to set up the database schema and seed the required data:
 
 bash
@@ -58,29 +69,27 @@ php artisan migrate --seed
 Start Redis
 Ensure Redis is running. You can start Redis locally or via Docker:
 
-bash
-Copy code
 docker run --name redis -p 6379:6379 -d redis  
-Start the Application
+
+### Start the Application
 Start the Laravel development server:
 
-bash
-Copy code
-php artisan serve  
-API Endpoints
-Authentication
+php artisan serve
+
+## API Endpoints
+### Authentication
 Login: POST /api/login
 Register: POST /api/register
-Cart Management
+### Cart Management
 Add to Cart: POST /api/cart
 Remove from Cart: DELETE /api/cart/{productId}
 View Cart: GET /api/cart
-Order Management
+### Order Management
 Place Order: POST /api/orders
 View Orders: GET /api/orders
-Project Structure
-plaintext
-Copy code
+
+## Project Structure
+
 app/  
 ├── Http/  
 │   ├── Controllers/           # CartController, OrderController  
@@ -100,11 +109,10 @@ tests/
 ├── Feature/                   # Feature tests for Cart and Orders  
 ├── Unit/                      # Unit tests for services and models  
 .env                           # Configuration file  
-Testing
-Run Tests
-bash
 
+## Testing
+### Run Tests
 php artisan test  
-Coverage
+### Coverage
 Feature Tests: Test the integration of API endpoints for Cart and Orders.
 Unit Tests: Validate the business logic in CartService and models.
