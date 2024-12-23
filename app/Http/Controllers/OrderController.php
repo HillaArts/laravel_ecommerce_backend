@@ -17,7 +17,11 @@ class OrderController extends Controller
      */
     public function placeOrder()
     {
-        $cartKey = "cart:" . auth()->id();
+        // Hardcoded email and name for testing purposes
+        $userName = 'Test User';
+        $userEmail = 'test@example.com';
+
+        $cartKey = "cart:" . $userEmail; // Use the hardcoded email for the cart key
         $cart = Redis::hGetAll($cartKey);
 
         if (empty($cart)) {
@@ -28,8 +32,8 @@ class OrderController extends Controller
 
         try {
             $order = Order::create([
-                'customer_name' => auth()->user()->name,
-                'customer_email' => auth()->user()->email,
+                'customer_name' => $userName,
+                'customer_email' => $userEmail,
             ]);
 
             foreach ($cart as $product) {
@@ -61,7 +65,10 @@ class OrderController extends Controller
      */
     public function viewOrders()
     {
-        $orders = Order::with('items.product')->where('customer_email', auth()->user()->email)->get();
+        $userId = 1;
+
+        // Fetch orders for the test email
+        $orders = Order::with('items.product')->where('user_id', $userId)->get();
 
         return response()->json($orders, 200);
     }
