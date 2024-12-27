@@ -41,10 +41,10 @@ Docker (optional for containerized setup)
 ## Installation
 
 ### Clone the Repository
-
+'''
 git clone [https://github.com/HillaArts/laravel_ecommerce_backend.git](https://github.com/HillaArts/laravel_ecommerce_backend.git)
 cd laravel_ecommerce_backened  
-
+'''
 ### Install Dependencies
 
 composer install  
