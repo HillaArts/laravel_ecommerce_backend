@@ -4,6 +4,7 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
+
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
@@ -18,21 +19,21 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        // Clear configuration and cache without facades
-        $this->artisan('config:clear');
-        $this->artisan('cache:clear');
+        // // Clear configuration and cache without facades
+        // $this->artisan('config:clear');
+        // $this->artisan('cache:clear');
 
-        // Clear the database to ensure a fresh state for each test
-        $this->artisan('migrate:fresh');
+        // // Clear the database to ensure a fresh state for each test
+        // $this->artisan('migrate:fresh');
 
-        // Seed the database if needed
-        $this->artisan('db:seed');
+        // // Seed the database if needed
+        // $this->artisan('db:seed');
 
-        // Clear Redis if needed
-        if (app()->environment('testing')) {
-            $redis = app('redis');
-            $redis->flushall();
-        }
+        // // Clear Redis if needed
+        // if (app()->environment('testing')) {
+        //     $redis = app('redis');
+        //     $redis->flushall();
+        // }
     }
 
     /**
