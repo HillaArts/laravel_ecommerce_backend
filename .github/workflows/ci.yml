@@ -45,7 +45,7 @@ jobs:
           docker tag backend-image:latest hillaarts/backend-image:latest
           docker push hillaarts/backend-image:latest
 
-      # Deploy the app to server using SSH
+      # Deploy the app to the server using SSH
       - name: Deploy to Server
         run: |
           # Ensure private key file exists and has correct permissions
@@ -58,8 +58,16 @@ jobs:
           # Add the server's SSH key to known hosts to avoid authenticity prompts
           ssh-keyscan -H 35.153.33.107 >> /home/runner/.ssh/known_hosts
 
-          # SSH into the server and deploy
-          ssh -i /tmp/ssh_private_key ubuntu@35.153.33.107 'docker pull hillaarts/backend-image:latest && docker-compose up -d'
+          # SSH into the server and install Docker (if not already installed)
+          ssh -i /tmp/ssh_private_key ubuntu@35.153.33.107 << 'EOF'
+            # Update package list and install Docker if not installed
+            sudo apt-get update
+            sudo apt-get install -y docker.io docker-compose
+
+            # Pull the latest Docker image and restart the containers
+            docker pull hillaarts/backend-image:latest
+            docker-compose up -d
+          EOF
 
           # Clean up the private key file
           rm -f /tmp/ssh_private_key
