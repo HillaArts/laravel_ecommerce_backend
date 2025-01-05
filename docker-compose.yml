@@ -1,6 +1,17 @@
+version: '3'
 services:
-  redis:
-    image: redis
-    container_name: redis
+  backend:
+    image: hillaarts/backend-image:latest
+    container_name: redi-container
     ports:
       - "6379:6379"
+    environment:
+      - NODE_ENV=production
+    restart: always
+
+  frontend:
+    image: hillaarts/frontend-image:latest
+    container_name: redis-container
+    ports:
+      - "80:80"
+    restart: always
