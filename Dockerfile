@@ -11,9 +11,6 @@ RUN npm install
 # Copy the entire project
 COPY . .
 
-# Build the application
-RUN npm run build
-
 # Expose the desired port
 EXPOSE 8000
 
