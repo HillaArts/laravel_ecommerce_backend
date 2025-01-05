@@ -52,8 +52,11 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/ssh_private_key
           chmod 600 /tmp/ssh_private_key
 
-          # Add server's SSH key to known hosts to avoid authenticity prompts
-          ssh-keyscan -H 35.153.33.107 >> ~/.ssh/known_hosts
+          # Create the .ssh directory if it doesn't exist
+          mkdir -p /home/runner/.ssh
+
+          # Add the server's SSH key to known hosts to avoid authenticity prompts
+          ssh-keyscan -H 35.153.33.107 >> /home/runner/.ssh/known_hosts
 
           # SSH into the server and deploy
           ssh -i /tmp/ssh_private_key ubuntu@35.153.33.107 'docker pull hillaarts/backend-image:latest && docker-compose up -d'
