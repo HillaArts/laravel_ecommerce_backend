@@ -2,10 +2,11 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use App\Services\CartService;
 use App\Models\Product;
 use Illuminate\Support\Facades\Redis;
+
 
 /**
  * Unit test suite for CartService.
