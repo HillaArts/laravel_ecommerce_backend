@@ -64,6 +64,15 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y docker.io docker-compose
 
+            # Add the ubuntu user to the docker group to allow Docker usage without sudo
+            sudo usermod -aG docker ubuntu
+
+            # Log out and log back in to apply group changes (automated workaround)
+            newgrp docker
+
+            # Navigate to the root directory where docker-compose.yml is located
+            cd /
+
             # Pull the latest Docker image and restart the containers
             docker pull hillaarts/backend-image:latest
             docker-compose up -d
