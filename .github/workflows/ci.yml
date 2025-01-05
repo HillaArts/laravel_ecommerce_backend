@@ -45,15 +45,18 @@ jobs:
           docker tag backend-image:latest hillaarts/backend-image:latest
           docker push hillaarts/backend-image:latest
 
-      - name: Write SSH keys
-        run: |
-          install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          host='35.153.33.107'
-          hosts="$(dig +short "$host" | grep -v '\.$' | sed -z 's|\n|,|g')$host"
-          ssh-keyscan -H "$hosts" > ~/.ssh/known_hosts
-
       # Deploy the app to server using SSH
       - name: Deploy to Server
         run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.153.33.107 'docker pull hillaaarts/backend-image:latest && docker-compose up -d'
+          # Ensure private key file exists and has correct permissions
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/ssh_private_key
+          chmod 600 /tmp/ssh_private_key
+
+          # Add server's SSH key to known hosts to avoid authenticity prompts
+          ssh-keyscan -H 35.153.33.107 >> ~/.ssh/known_hosts
+
+          # SSH into the server and deploy
+          ssh -i /tmp/ssh_private_key ubuntu@35.153.33.107 'docker pull hillaarts/backend-image:latest && docker-compose up -d'
+
+          # Clean up the private key file
+          rm -f /tmp/ssh_private_key
