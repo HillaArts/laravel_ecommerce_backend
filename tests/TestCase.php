@@ -3,9 +3,6 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\Facade;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -15,31 +12,27 @@ abstract class TestCase extends BaseTestCase
      * Set up the testing environment.
      *
      * This method is called before every test.
-     * It ensures the database and Redis are properly configured for tests.
+     * It ensures the database and services are properly configured for tests.
      */
     protected function setUp(): void
     {
         parent::setUp();
 
-        // Clear configuration and cache before running tests
-        Artisan::call('config:clear');
-        Artisan::call('cache:clear');
+        // Clear configuration and cache without facades
+        $this->artisan('config:clear');
+        $this->artisan('cache:clear');
 
         // Clear the database to ensure a fresh state for each test
-        Artisan::call('migrate:fresh');
+        $this->artisan('migrate:fresh');
 
         // Seed the database if needed
-        Artisan::call('db:seed');
+        $this->artisan('db:seed');
 
-        // Ensure Redis is mocked during testing if Redis is used
+        // Clear Redis if needed
         if (app()->environment('testing')) {
-            Redis::shouldReceive('flushAll')
-                ->zeroOrMoreTimes() // Mock Redis flush for testing
-                ->andReturnTrue();
+            $redis = app('redis');
+            $redis->flushall();
         }
-
-        // Clear resolved instances to ensure a fresh start
-        Facade::clearResolvedInstances();
     }
 
     /**
