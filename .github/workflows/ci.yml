@@ -71,7 +71,7 @@ jobs:
             newgrp docker
 
             # Navigate to the root directory where docker-compose.yml is located
-            cd /
+            # cd /
 
             # Pull the latest Docker image and restart the containers
             docker pull hillaarts/backend-image:latest
@@ -80,3 +80,4 @@ jobs:
 
           # Clean up the private key file
           rm -f /tmp/ssh_private_key
+          
