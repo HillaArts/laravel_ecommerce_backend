@@ -48,4 +48,4 @@ jobs:
       # Deploy the app to server using SSH
       - name: Deploy to Server
         run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} user@your-server-ip 'docker pull hillaaarts/backend-image:latest && docker-compose up -d'
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@35.153.33.107 'docker pull hillaaarts/backend-image:latest && docker-compose up -d'
