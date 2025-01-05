@@ -75,7 +75,7 @@ jobs:
 
             # Pull the latest Docker image and restart the containers
             docker pull hillaarts/backend-image:latest
-            docker-compose up -d
+            docker run -d -p 8000
           EOF
 
           # Clean up the private key file
