@@ -14,32 +14,38 @@ class CartController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function addToCart(Request $request)
-    {
-        // Get the current user's cart key in Redis
-        $cartKey = "cart:" . auth()->id();
+{
+    // Validate the incoming request
+    $request->validate([
+        'product_id' => 'required|integer|exists:products,id',
+        'quantity' => 'required|integer|min:1',
+    ]);
 
-        // Check if the product already exists in the cart
+    try {
+        // Use session ID or user ID as cart key
+        $cartKey = "cart:" . (auth()->id() ?? session()->getId());
+
+        // Check if the product exists in the cart
         $product = Redis::hGet($cartKey, $request->product_id);
+        $quantity = $product ? json_decode($product, true)['quantity'] + $request->quantity : $request->quantity;
 
-        // If product exists, update the quantity, otherwise set the quantity as requested
-        $quantity = $product ? json_decode($product)->quantity + $request->quantity : $request->quantity;
-
-        // If quantity is zero or less, remove the product from the cart
+        // Update or remove the product based on quantity
         if ($quantity <= 0) {
             Redis::hDel($cartKey, $request->product_id);
-            return response()->json(['message' => 'Product removed from cart due to invalid quantity'], 200);
+            return response()->json(['message' => 'Product removed from cart'], 200);
         }
 
-        // Store the updated product data in Redis
+        // Update the product in the cart
         Redis::hSet($cartKey, $request->product_id, json_encode([
             'product_id' => $request->product_id,
             'quantity' => $quantity,
         ]));
 
-        // Return success response
         return response()->json(['message' => 'Product added to cart'], 200);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Error adding to cart: ' . $e->getMessage()], 500);
     }
-
+}
     /**
      * Remove an item from the cart.
      *
