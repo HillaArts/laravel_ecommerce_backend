@@ -20,17 +20,25 @@ class CartService
     public function addToCart(int $productId, int $quantity, float $price): void
     {
         // Use a session or unique identifier for the cart key
-        $cartKey = "cart:" . session()->getId(); // Use session ID as a unique cart identifier
+        $cartKey = "cart:" . session()->getId(); 
 
         // Get the existing cart from Redis
         $cart = json_decode(Redis::get($cartKey), true) ?? [];
 
-        // Simply add the new product to the cart without validation
-        $cart[] = [
-            'product_id' => $productId,
-            'quantity' => $quantity,
-            'price' => $price,
-        ];
+        // Check if the product already exists in the cart
+        $productIndex = collect($cart)->search(fn($item) => $item['product_id'] === $productId);
+
+        if ($productIndex !== false) {
+            // Update the quantity if the product exists
+            $cart[$productIndex]['quantity'] += $quantity;
+        } else {
+            // Add a new product entry
+            $cart[] = [
+                'product_id' => $productId,
+                'quantity' => $quantity,
+                'price' => $price,
+            ];
+        }
 
         // Save the updated cart back to Redis
         Redis::set($cartKey, json_encode($cart));
